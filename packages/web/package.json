@@ -1,0 +1,52 @@
+{
+  "name": "@addi-check/web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/jest": "24.0.15",
+    "@types/node": "12.0.10",
+    "@types/react": "16.8.22",
+    "@types/react-dom": "16.8.4",
+    "dexie": "^2.0.4",
+    "ramda": "^0.26.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1",
+    "throttle-debounce": "^2.1.0",
+    "typescript": "3.5.2"
+  },
+  "scripts": {
+    "build:css": "postcss src/main.css -o src/index.css",
+    "watch:css": "postcss src/main.css -o src/index.css -w",
+    "start": "yarn run watch:css & react-scripts start",
+    "build": "yarn run build:css & react-scripts build",
+    "test": "react-scripts test",
+    "test:nowatch": "CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "update": "../../node_modules/npm-check-updates/bin/ncu -u && yarn"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.2.0",
+    "@types/ramda": "^0.26.14",
+    "@types/throttle-debounce": "^1.1.1",
+    "autoprefixer": "^9.6.0",
+    "dexie": "^2.0.4",
+    "postcss-cli": "^6.1.2",
+    "tailwindcss": "^1.0.4"
+  }
+}
