@@ -1,17 +1,18 @@
-import React from 'react'
-import HomeView from './modules/home/HomeView'
-import Header from './modules/shared/Header'
+import { createBrowserHistory } from 'history'
+import * as React from 'react'
+import { Redirect, Route, Router, Switch } from 'react-router-dom'
+import Root from './routes/Root'
+
+const hist = createBrowserHistory()
 
 const App: React.FC = () => {
   return (
-    <>
-      <Header />
-      <main className="builder bg-white flex">
-        <div className="md:w-5/6 max-w-6xl mx-2 md:mx-auto h-full">
-          <HomeView />
-        </div>
-      </main>
-    </>
+    <Router history={hist}>
+      <Switch>
+        <Route path="/" component={Root} />
+        <Redirect from="/" to="/users" />
+      </Switch>
+    </Router>
   )
 }
 
