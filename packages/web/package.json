@@ -21,7 +21,7 @@
     "mock:generate": "node scripts/generateMockData",
     "start": "yarn run watch:css & react-scripts start",
     "build": "yarn run mock:generate && yarn run build:css & react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom --transformIgnorePatterns",
     "test:nowatch": "CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "update": "../../node_modules/npm-check-updates/bin/ncu -u && yarn"
