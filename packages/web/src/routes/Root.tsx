@@ -5,6 +5,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Header from '../modules/shared/Header'
 import CreateUsersView from '../modules/users/create/CreateUserView'
 import ListUsersView from '../modules/users/list/ListUserView'
+import { useUserDispatch } from '../modules/users/state'
+import { getUsers } from '../modules/users/state/services'
 
 export interface IRoute {
   layout: string
@@ -47,6 +49,12 @@ const switchRoutes = (
 )
 
 export default function Root({ location }: RouteComponentProps) {
+  const dispatch = useUserDispatch()
+
+  React.useEffect(() => {
+    getUsers(dispatch)
+  }, [])
+
   return (
     <>
       <Header />

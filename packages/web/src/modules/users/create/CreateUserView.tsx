@@ -1,8 +1,11 @@
-import { Field, Form, Formik } from 'formik'
+import { Field, Form, Formik, FormikActions } from 'formik'
 import * as React from 'react'
+import { RouteComponentProps } from 'react-router'
+import uuid from 'uuid'
 import * as Yup from 'yup'
 import { InputField } from '../../shared/InputField'
 import { SelectField } from '../../shared/SelectField'
+import { useUserDispatch } from '../state'
 
 export interface ICreateUserFormValues {
   firstName: string
@@ -23,15 +26,46 @@ export const defaultListingFormValues: ICreateUserFormValues = {
 const ValidaitonSchema = Yup.object({
   firstName: Yup.string().required(),
   secondName: Yup.string(),
-  number: Yup.string().required(),
+  number: Yup.number().required(),
   expeditionDate: Yup.string().required(),
   typeIdentification: Yup.string()
     .required()
     .oneOf(['TI', 'CC']),
 })
 
-export default function CreateUsersView() {
-  const onSubmit = async (...args: any) => console.log(args)
+export default function CreateUsersView({ history }: RouteComponentProps) {
+  const dispatch = useUserDispatch()
+  const onSubmit = async (
+    values: ICreateUserFormValues,
+    { setSubmitting }: FormikActions<ICreateUserFormValues>
+  ) => {
+    setSubmitting(true)
+
+    try {
+      dispatch({
+        type: 'ADD_PROSPECT',
+        newUser: {
+          id: uuid(),
+          avatar:
+            'https://s3.amazonaws.com/uifaces/faces/twitter/rikas/128.jpg',
+          first_name: values.firstName,
+          last_name: values.secondName,
+          is_valid: false,
+          email: 'test@hotmail.com',
+          number: parseInt(values.number, 10),
+          expeditionDate: `${values.expeditionDate}T17:53:40.102Z`,
+          typeIdentification: values.typeIdentification,
+        },
+      })
+
+      history.push('/users/')
+    } catch (error) {
+      // tslint:disable-next-line
+      console.log(error)
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <Formik<ICreateUserFormValues>
@@ -39,7 +73,7 @@ export default function CreateUsersView() {
       validationSchema={ValidaitonSchema}
       initialValues={defaultListingFormValues}
     >
-      {({ values }) => (
+      {({ isValid, isSubmitting }) => (
         <Form>
           <div className="flex items-center justify-start w-full flex-col py-16">
             <div className="bg-white shadow-xl rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2 w-1/2">
@@ -82,6 +116,7 @@ export default function CreateUsersView() {
                     label="Fecha de expedicion"
                     placeholder="12/12/1994"
                     name="expeditionDate"
+                    type="date"
                   />
                 </div>
                 <div className="md:w-1/2 px-3">
@@ -98,7 +133,10 @@ export default function CreateUsersView() {
               </div>
               <div className="mt-4 flex justify-end">
                 <button
-                  className="px-4 py-4 text-white font-light tracking-wider bg-gray-900 rounded w-2/6"
+                  disabled={!isValid || isSubmitting}
+                  className={`px-4 py-4 text-white font-light tracking-wider rounded w-2/6 ${
+                    !isValid || isSubmitting ? 'bg-gray-500' : 'bg-gray-900'
+                  }`}
                   type="submit"
                 >
                   Validar

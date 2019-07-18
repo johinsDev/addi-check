@@ -25,3 +25,5 @@ yarn-error.log*
 # tailwind
 
 src/index.css
+
+/public/api
