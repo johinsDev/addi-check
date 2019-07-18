@@ -1,6 +1,6 @@
 ## BAckground Check Test To Addi
 
-This a simple background check. [Demo](https://addi-background.netlify.com)
+This a simple background check. [Demo](https://addi-background.netlify.com/users)
 
 # run
 
